@@ -8,12 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.barunsw.store.constants.Result;
 import com.barunsw.store.service.UserService;
 import com.barunsw.store.vo.ResponseVo;
+import com.barunsw.store.vo.UserVo;
 
 @Controller
 public class UserController {
@@ -23,14 +25,16 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value="/api/login", method=RequestMethod.POST)
-	public ResponseEntity<ResponseVo> login(final HttpServletRequest request) {
-		final HttpSession session = request.getSession();
+	public ResponseEntity<ResponseVo> login(@RequestBody final UserVo paramData, final HttpServletRequest request) {
+		LOGGER.debug("login paramData:{}", paramData);
 		
-		String email = (String)request.getAttribute("email");
+		final HttpSession session = request.getSession();
 		
 		ResponseVo response = new ResponseVo();
 		try {
-			session.setAttribute("USER", email);
+			userService.signUp(paramData);
+			
+			session.setAttribute("USER", paramData);
 
 			response.setResult(Result.OK);
 		}
@@ -55,26 +59,6 @@ public class UserController {
 		catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
 
-			response.setResult(Result.FAIL);
-		}
-		
-		return response.build();
-	}
-	
-	@RequestMapping(value="/api/user/insert", method=RequestMethod.POST)
-	public ResponseEntity<ResponseVo> insertUser(final HttpServletRequest request) {
-		final HttpSession session = request.getSession();
-		
-		String email = (String)request.getAttribute("email");
-		
-		ResponseVo response = new ResponseVo();
-		try {
-			
-			response.setResult(Result.OK);
-		}
-		catch (Exception ex) {
-			LOGGER.error(ex.getMessage(), ex);
-			
 			response.setResult(Result.FAIL);
 		}
 		

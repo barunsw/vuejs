@@ -1,8 +1,6 @@
 package com.barunsw.store.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.barunsw.store.constants.Result;
 import com.barunsw.store.service.ProductService;
+import com.barunsw.store.vo.ImageVo;
+import com.barunsw.store.vo.ProductVo;
 import com.barunsw.store.vo.ResponseVo;
+import com.barunsw.store.vo.SellerVo;
 
 @Controller
 public class ProductController {
@@ -30,7 +31,7 @@ public class ProductController {
 		
 		ResponseVo response = new ResponseVo();
 		try {
-			List<Map> data = productService.selectProductList();
+			List<ProductVo> data = productService.selectProductList();
 			response.setData(data);
 			response.setResult(Result.OK);
 		}
@@ -50,7 +51,7 @@ public class ProductController {
 		
 		ResponseVo response = new ResponseVo();
 		try {
-			List<Map> data = productService.selectProductDetail(id);
+			List<ProductVo> data = productService.selectProductDetail(id);
 			response.setData(data);
 			response.setResult(Result.OK);
 		}
@@ -70,7 +71,7 @@ public class ProductController {
 		
 		ResponseVo response = new ResponseVo();
 		try {
-			List<Map> data = productService.selectProductImageList(id);
+			List<ImageVo> data = productService.selectProductImageList(id);
 			response.setData(data);
 			response.setResult(Result.OK);
 		}
@@ -88,9 +89,7 @@ public class ProductController {
 	public ResponseEntity<ResponseVo> selectSellerList() {
 		ResponseVo response = new ResponseVo();
 		try {
-			Map paramData = new HashMap();
-			
-			List<Map> data = productService.selectSellerList(paramData);
+			List<SellerVo> data = productService.selectSellerList();
 			response.setData(data);
 			response.setResult(Result.OK);
 		}

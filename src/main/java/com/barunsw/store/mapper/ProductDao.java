@@ -1,16 +1,19 @@
 package com.barunsw.store.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.barunsw.store.vo.ImageVo;
+import com.barunsw.store.vo.ProductVo;
+import com.barunsw.store.vo.SellerVo;
+
 @Mapper
 public interface ProductDao {
-	public List<Map> selectProductList(Map paramData);
-	public List<Map> selectProductImageList(Map paramData);
-	public int insertProduct(Map paramData) throws Exception;
-	public int insertProductImage(Map paramData) throws Exception;
+	public List<ProductVo> selectProductList(ProductVo paramData);
+	public List<ImageVo> selectProductImageList(ImageVo paramData);
+	public int insertProduct(ProductVo paramData) throws Exception;
+	public int insertProductImage(ImageVo paramData) throws Exception;
 
-	public List<Map> selectSellerList(Map paramData);
+	public List<SellerVo> selectSellerList(SellerVo paramData);
 }

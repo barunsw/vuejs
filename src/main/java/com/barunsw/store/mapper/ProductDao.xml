@@ -3,8 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.barunsw.store.mapper.ProductDao">
-	<select id="selectProductList" parameterType="java.util.Map" 
-		resultType="java.util.Map">
+	<select id="selectProductList" parameterType="com.barunsw.store.vo.ProductVo" 
+		resultType="com.barunsw.store.vo.ProductVo">
 		SELECT 
 			t1.ID
 			, t1.PRODUCT_NAME
@@ -35,8 +35,8 @@
 			</if>
 	</select>
 	
-	<select id="selectProductImageList" parameterType="java.util.Map" 
-		resultType="java.util.Map">
+	<select id="selectProductImageList" parameterType="com.barunsw.store.vo.ImageVo" 
+		resultType="com.barunsw.store.vo.ImageVo">
 		SELECT 
 			TYPE
 			, IMAGE_PATH 
@@ -44,16 +44,16 @@
 			T_IMAGE
 		WHERE
 			1 = 1
-			<if test="id != null and id.trim().length() > 0">
-			AND PRODUCT_ID = #{id}
+			<if test="productId != null and productId.trim().length() > 0">
+			AND PRODUCT_ID = #{productId}
 			</if>
 			<if test="type > 0">
 			AND TYPE = #{type}
 			</if>
 	</select>
 	
-	<select id="selectSellerList" parameterType="java.util.Map" 
-		resultType="java.util.Map">
+	<select id="selectSellerList" parameterType="com.barunsw.store.vo.SellerVo" 
+		resultType="com.barunsw.store.vo.SellerVo">
 		SELECT 
 			ID
 			, NAME
@@ -63,7 +63,7 @@
 			T_SELLER
 	</select>
 	
-	<insert id="insertProduct" parameterType="java.util.Map">
+	<insert id="insertProduct" parameterType="com.barunsw.store.vo.ProductVo">
 		INSERT INTO T_PRODUCT(PRODUCT_NAME, PRODUCT_PRICE, DELIVERY_PRICE, ADD_DELIVERY_PRICE, TAGS,
 			OUTBOUND_DAYS, SELLER_ID, CATEGORY_ID)
 		VALUES (
@@ -72,18 +72,18 @@
 			, #{deliveryPrice}
 			, #{addDeliveryPrice}
 			, #{tags}
-			, #{outbound_days}
+			, #{outboundDays}
 			, #{sellerId}
 			, #{categoryId}
 		)
 	</insert>
 	
-	<insert id="insertProductImage" parameterType="java.util.Map">
-		INSERT INTO T_IMAGE(PRODUCT_ID, TYPE, PATH)
+	<insert id="insertProductImage" parameterType="com.barunsw.store.vo.ImageVo">
+		INSERT INTO T_IMAGE(PRODUCT_ID, TYPE, IMAGE_PATH)
 		VALUES (
 			#{productId}
 			, #{type}
-			, #{path}
+			, #{imagePath}
 		)
 	</insert>
 </mapper>
