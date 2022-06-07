@@ -26,6 +26,8 @@ public class ProductController {
 	
 	@RequestMapping(value="/api/product/list", method=RequestMethod.GET)
 	public ResponseEntity<ResponseVo> selectProductList() {
+		LOGGER.debug("selectProductList");
+		
 		ResponseVo response = new ResponseVo();
 		try {
 			List<Map> data = productService.selectProductList();
@@ -44,9 +46,31 @@ public class ProductController {
 	
 	@RequestMapping(value="/api/product/detail/{id}", method=RequestMethod.GET)
 	public ResponseEntity<ResponseVo> selectProductDetail(@PathVariable String id) {
+		LOGGER.debug("selectProductDetail productId:" + id);
+		
 		ResponseVo response = new ResponseVo();
 		try {
 			List<Map> data = productService.selectProductDetail(id);
+			response.setData(data);
+			response.setResult(Result.OK);
+		}
+		catch (Exception ex) {
+			LOGGER.error(ex.getMessage(), ex);
+			
+			response.setResult(Result.FAIL);
+			response.setMessage(ex.getMessage());
+		}
+		
+		return response.build();
+	}
+	
+	@RequestMapping(value="/api/product/image/{id}", method=RequestMethod.GET)
+	public ResponseEntity<ResponseVo> selectProductImage(@PathVariable String id) {
+		LOGGER.debug("selectProductImage productId:" + id);
+		
+		ResponseVo response = new ResponseVo();
+		try {
+			List<Map> data = productService.selectProductImageList(id);
 			response.setData(data);
 			response.setResult(Result.OK);
 		}

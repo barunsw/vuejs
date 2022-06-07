@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.barunsw.store.constants.Result;
-import com.barunsw.store.service.LoginService;
+import com.barunsw.store.service.UserService;
 import com.barunsw.store.vo.ResponseVo;
 
 @Controller
-public class LoginController {
-	private static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+public class UserController {
+	private static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	private LoginService loginService;
+	private UserService userService;
 	
 	@RequestMapping(value="/api/login", method=RequestMethod.POST)
 	public ResponseEntity<ResponseVo> login(final HttpServletRequest request) {
@@ -55,6 +55,26 @@ public class LoginController {
 		catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
 
+			response.setResult(Result.FAIL);
+		}
+		
+		return response.build();
+	}
+	
+	@RequestMapping(value="/api/user/insert", method=RequestMethod.POST)
+	public ResponseEntity<ResponseVo> insertUser(final HttpServletRequest request) {
+		final HttpSession session = request.getSession();
+		
+		String email = (String)request.getAttribute("email");
+		
+		ResponseVo response = new ResponseVo();
+		try {
+			
+			response.setResult(Result.OK);
+		}
+		catch (Exception ex) {
+			LOGGER.error(ex.getMessage(), ex);
+			
 			response.setResult(Result.FAIL);
 		}
 		
