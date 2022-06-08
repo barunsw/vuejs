@@ -15,22 +15,22 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-md-6" :key="i" v-for="(product, i) in productList">
                     <div class="card" style="width: 18rem;">
-                        <a href="product_detail.html">
-                            <img :src="product.IMAGE_PATH" class="card-img-top" alt="...">
+                        <a @click="goToDetail(product.id)" style="cursor:pointer">
+                            <img :src="product.imagePath" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">{{product.PRODUCT_NAME}}</h5>
+                            <h5 class="card-title">{{product.productName}}</h5>
                             <p class="card-text">
-                                <span class="badge bg-dark mr-1">{{product.CATEGORY1}}</span>
-                                <span class="badge bg-dark mr-1">{{product.CATEGORY2}}</span>
-                                <span class="badge bg-dark mr-1">{{product.CATEGORY3}}</span>
+                                <span class="badge bg-dark me-1">{{product.category1}}</span>
+                                <span class="badge bg-dark me-1">{{product.category2}}</span>
+                                <span class="badge bg-dark me-1">{{product.category3}}</span>
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">장바구니 담기</button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary">주문하기</button>
                                 </div>
-                                <small class="text-dark">{{product.PRODUCT_PRICE}} 원</small> 
+                                <small class="text-dark">{{$currencyFormat(product.productPrice)}} 원</small> 
                             </div>
                         </div>
                     </div>
@@ -56,6 +56,16 @@ export default {
       let result = await this.$api("/api/product/list", "GET", {})
       this.productList = result.data
       console.log('productList', this.productList)
+    },
+    goToDetail(product_id) {
+      console.log('product_id', product_id)
+
+      this.$router.push({
+        path:'/detail', 
+        query: {
+          product_id:product_id
+        }
+      })
     }
   }
 }

@@ -46,6 +46,13 @@ public class ProductService {
 		return productDao.insertProductImage(paramData);
 	}
 	
+	public int deleteProduct(String id) throws Exception {
+		ProductVo paramData = new ProductVo();
+		paramData.setId(id);
+		
+		return productDao.deleteProduct(paramData);
+	}
+	
 	public List<SellerVo> selectSellerList() {
 		SellerVo paramData = new SellerVo();
 		return productDao.selectSellerList(paramData);

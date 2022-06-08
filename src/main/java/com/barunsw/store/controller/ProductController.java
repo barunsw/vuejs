@@ -85,6 +85,26 @@ public class ProductController {
 		return response.build();
 	}
 	
+	
+	@RequestMapping(value="/api/product/delete/{id}", method=RequestMethod.POST)
+	public ResponseEntity<ResponseVo> deleteProduct(@PathVariable String id) {
+		LOGGER.debug("deleteProduct productId:" + id);
+		
+		ResponseVo response = new ResponseVo();
+		try {
+			productService.deleteProduct(id);
+			response.setResult(Result.OK);
+		}
+		catch (Exception ex) {
+			LOGGER.error(ex.getMessage(), ex);
+			
+			response.setResult(Result.FAIL);
+			response.setMessage(ex.getMessage());
+		}
+		
+		return response.build();
+	}
+	
 	@RequestMapping(value="/api/seller/list", method=RequestMethod.GET)
 	public ResponseEntity<ResponseVo> selectSellerList() {
 		ResponseVo response = new ResponseVo();
